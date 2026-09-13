@@ -13,9 +13,7 @@ const Nav = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-7">
-          <a href="#home" className="text-pink-600 text-sm font-medium">
-            Home
-          </a>
+          <a href="#home" className="text-pink-600 text-sm font-medium"> Home </a>
 
           <a
             href="#technologies"
@@ -50,7 +48,6 @@ const Nav = () => {
           <button className="text-gray-700 text-sm hover:text-pink-600">
             Sign In
           </button>
-
           <button className="bg-pink-600 text-white text-sm px-5 py-2 rounded-full hover:bg-pink-700">
             Sign Up
           </button>
