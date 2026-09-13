@@ -4,9 +4,8 @@ import type { Technology } from "../types";
 import TechnologyCard from "./TechnologyCard";
 import YourStack from "./YourStack";
 
-const technologiesPromise = fetch("/data.json").then(
-  (response) => response.json() as Promise<Technology[]>,
-);
+const technologiesPromise = fetch("/data.json") 
+.then((response) => response.json());
 
 const Technologies = () => {
   const technologies = use(technologiesPromise);
@@ -19,11 +18,9 @@ const Technologies = () => {
       toast.warning("This technology is already in your stack!");
       return;
     }
-
     setStack([...stack, technology]);
     toast.success(`${technology.name} added to your stack.`);
   };
-
   const handleRemove = (id: string) => {
     setStack(stack.filter((item) => item.id !== id));
     toast.success("Technology removed from your stack.");
@@ -43,7 +40,6 @@ const Technologies = () => {
               Technologies
             </span>
           </h2>
-
           <p className="mt-1 text-sm text-gray-400">
             Pick one technology per category to build your ideal stack.
           </p>
@@ -71,5 +67,4 @@ const Technologies = () => {
     </section>
   );
 };
-
 export default Technologies;
