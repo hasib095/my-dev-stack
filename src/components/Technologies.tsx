@@ -1,49 +1,41 @@
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
+import { toast } from "react-toastify";
 import type { Technology } from "../types";
-
 import TechnologyCard from "./TechnologyCard";
 import YourStack from "./YourStack";
 
+const technologiesPromise = fetch("/data.json").then(
+  (response) => response.json() as Promise<Technology[]>,
+);
+
 const Technologies = () => {
-  const [technologies, setTechnologies] = useState<Technology[]>([]);
+  const technologies = use(technologiesPromise);
   const [stack, setStack] = useState<Technology[]>([]);
 
-  useEffect(() => {
-    fetch("/data.json")
-      .then((response) => response.json() as Promise<Technology[]>)
-      .then(setTechnologies);
-  }, []);
-
-  // Add technology
   const handleAdd = (technology: Technology) => {
-    const alreadyAdded = stack.some(
-      (item) => item.id === technology.id
-    );
+    const alreadyAdded = stack.some((item) => item.id === technology.id);
 
     if (alreadyAdded) {
-      alert("This technology is already in your stack!");
+      toast.warning("This technology is already in your stack!");
       return;
     }
 
     setStack([...stack, technology]);
+    toast.success(`${technology.name} added to your stack.`);
   };
 
-  // Remove one technology
   const handleRemove = (id: string) => {
     setStack(stack.filter((item) => item.id !== id));
+    toast.success("Technology removed from your stack.");
   };
-
-  // Remove all technologies
   const handleRemoveAll = () => {
     setStack([]);
+    toast.info("All technologies removed from your stack.");
   };
 
   return (
-    <section className="bg-white py-16" id="technologies">
-
+    <section className="bg-white py-1" id="technologies">
       <div className="mx-auto max-w-6xl px-4">
-
-        {/* Section Heading */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-slate-900">
             Explore the{" "}
@@ -56,27 +48,17 @@ const Technologies = () => {
             Pick one technology per category to build your ideal stack.
           </p>
         </div>
-
-        {/* Main Layout */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-
-          {/* Technology Cards */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
-
             {technologies.map((technology) => (
               <TechnologyCard
                 key={technology.id}
                 technology={technology}
-                isAdded={stack.some(
-                  (item) => item.id === technology.id
-                )}
+                isAdded={stack.some((item) => item.id === technology.id)}
                 onAdd={handleAdd}
               />
             ))}
-
           </div>
-
-          {/* Your Stack */}
           <div>
             <YourStack
               stack={stack}
@@ -84,11 +66,8 @@ const Technologies = () => {
               onRemoveAll={handleRemoveAll}
             />
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 };
