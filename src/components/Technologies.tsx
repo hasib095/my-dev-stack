@@ -21,6 +21,7 @@ const Technologies = () => {
     setStack([...stack, technology]);
     toast.success(`${technology.name} added to your stack.`);
   };
+
   const handleRemove = (id: string) => {
     setStack(stack.filter((item) => item.id !== id));
     toast.success("Technology removed from your stack.");
@@ -56,11 +57,7 @@ const Technologies = () => {
             ))}
           </div>
           <div>
-            <YourStack
-              stack={stack}
-              onRemove={handleRemove}
-              onRemoveAll={handleRemoveAll}
-            />
+            <YourStack stack={stack} onRemove={handleRemove} onRemoveAll={handleRemoveAll}/>
           </div>
         </div>
       </div>
